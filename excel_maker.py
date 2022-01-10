@@ -1,6 +1,4 @@
-from RPA.Browser.Selenium import Selenium
 from RPA.Excel.Files import Files
-from RPA.FileSystem import FileSystem
 
 
 class ExcelMaker():
@@ -18,6 +16,7 @@ class ExcelMaker():
         self._headers_index = {}
         self._workbook.create_worksheet(name)
 
+    #non-public method
     def _set_headers(self, headers):
         for num, val in enumerate(headers):
             if val != self._exclude_keys:
@@ -30,6 +29,7 @@ class ExcelMaker():
                 self._workbook.set_cell_value(row_id, self._headers_index[key],
                                               value, self._name)
 
+    #Public method
     def set_content(self):
         self._set_headers(self._content[0].keys())
         row = {}
