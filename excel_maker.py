@@ -10,7 +10,7 @@ class ExcelMaker():
         if workbook is None:
             self._workbook = excel.create_workbook(path=path)
         else:
-            self._workbook = workbook
+            self._workbook = workbook    
         self._content = content
         self._name = name
         self._path = path
@@ -18,6 +18,7 @@ class ExcelMaker():
         self._headers_index = {}
         self._workbook.create_worksheet(name)
 
+    # Medium: naming inconsistent
     def _set_headers(self, headers):
         for num, val in enumerate(headers):
             if val != self._exclude_keys:
