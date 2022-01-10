@@ -31,7 +31,7 @@ class ITRobot:
 
         workbook = maker.get_workbook()
         investments_table = self.individual_agencies.parse()
-
+        # Medium: create another variable for the new ExcelMaker. It is a bad practice to override variable like this
         maker = ExcelMaker(
             content=investments_table,
             name='IndividualInvestments',
@@ -45,7 +45,7 @@ class ITRobot:
         maker.close()
 
 
-
+        # Critical: Remove comment 
         # print(links)
         # for link in links:
         #     downloader = PDFDownloader(link)
@@ -54,7 +54,8 @@ class ITRobot:
         dir = f'{os.getcwd()}/output'
         links = [investment['link'] for investment in investments_table if investment['link']]
         names = [investment['UII'] for investment in investments_table if investment['link']]
-
+        
+        # Medium: I believe is it better to put this into __init__
         browser = Selenium()
         files = FileSystem()
 
