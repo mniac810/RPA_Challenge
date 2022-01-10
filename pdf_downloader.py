@@ -13,7 +13,10 @@ class PDFDownloader:
         self._url = page_url
         print(self._url)
 
+    # Medium: I am confused by your naming convention. Is is a written Python convention (i dont write Python that often)?
+    # Or else please be consistent whether or not to have a _ at the start of method name
     def _wait_download(self, name):
+    # Critical: this while loop here is very bad. It can potentially be a blocking thread if the file can never be download. You will need a timeout
         while self.files.does_file_not_exist('{}/output/{}.pdf'.format(
                 os.getcwd(), name)):
             continue
