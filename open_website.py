@@ -1,6 +1,8 @@
 from RPA.Browser.Selenium import Selenium
 
-
+# Critical: I know this is your effort to be different from others code but this is bad abtraction
+# You remove a lot of argument from the method that browser provide (i.e timeout) and doesn't add any particular
+# benefit. Please just use the provided methods
 class OpenWebsite:
 
   def __init__(self, url, button):
