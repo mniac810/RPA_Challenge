@@ -7,12 +7,14 @@ class OpenAgencies:
     def __init__(self):
         self.open_bot = OpenWebsite(url='https://itdashboard.gov/',
                                     button='//*[@href="#home-dive-in"]')
+        # Critical: Remove comment
         # self.open_bot.browser = OpenWebsite.open_bot.browser()
 
     def open_and_click(self):
         self.open_bot.open()
         self.open_bot.click_dive_in()
-
+        
+        # Medium: naming inconsistent
     def _get_agencies(self):
         self.open_bot.browser.wait_until_element_is_visible(locator='css:div#agency-tiles-2-container>div>div>div>div')
         agencies = self.open_bot.browser.get_webelements(locator='css:div#agency-tiles-2-container>div>div>div>div')
@@ -29,6 +31,7 @@ class OpenAgencies:
     def _get_id(self, agency_element):
         self.open_bot.browser.wait_until_element_is_visible(locator=[agency_element, 'css:a'])
         link = self.open_bot.browser.get_element_attribute(locator=[agency_element, 'css:a'], attribute='href')
+        # Low: Naming. why id_ ?
         id_ = link.split('/')[-1]
         return id_
 
