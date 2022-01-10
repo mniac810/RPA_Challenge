@@ -16,6 +16,28 @@ class ITRobot:
         self.agencies_list = OpenAgencies()
         self.individual_agencies = GetIndividualInvestment('422')
 
+    def _pdf_download(self, investments_table):
+        browser = Selenium()
+        files = FileSystem()
+
+        
+        dir = f'{os.getcwd()}/output'
+        links = [investment['link'] for investment in investments_table if investment['link']]
+        names = [investment['UII'] for investment in investments_table if investment['link']]
+
+
+        browser.set_download_directory(dir, True)
+        num=0
+        for link in links:
+            if link != '':
+                browser.open_available_browser(link)            
+                browser.wait_until_element_is_visible('//*[@href="#"]')
+                browser.click_element('//*[@href="#"]')
+                while files.does_file_not_exist(
+                        '{}/{}.pdf'.format(dir, names[num])):
+                    continue     
+            num += 1
+
     def run(self):
         self.agencies_list.open_and_click()
         list_agencies = self.agencies_list.parse()
@@ -40,38 +62,15 @@ class ITRobot:
             exclude_keys='link'
         )
 
+        self._pdf_download(investments_table)
+
         maker.set_content()
         maker.save_workbook()
         maker.close()
 
 
 
-        # print(links)
-        # for link in links:
-        #     downloader = PDFDownloader(link)
-        #     downloader.download_pdf()
-
-        dir = f'{os.getcwd()}/output'
-        links = [investment['link'] for investment in investments_table if investment['link']]
-        names = [investment['UII'] for investment in investments_table if investment['link']]
-
-        browser = Selenium()
-        files = FileSystem()
-
-
-        browser.set_download_directory(dir, True)
-        num=0
-        for link in links:
-            if link != '':
-                browser.open_available_browser(link)
-                # Click to download
-                browser.wait_until_element_is_visible('//*[@href="#"]')
-                browser.click_element('//*[@href="#"]')
-                # Wait for completed downloads
-                while files.does_file_not_exist(
-                        '{}/{}.pdf'.format(dir, names[num])):
-                    continue     
-            num += 1
+        
 
         
 if __name__ == "__main__":
